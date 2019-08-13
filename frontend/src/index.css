@@ -7,6 +7,8 @@ body {
 
 * {
   font-family: 'Noto Sans', sans-serif;
+  background-color: #27ae60;
+  color: white;
 }
 
 code {

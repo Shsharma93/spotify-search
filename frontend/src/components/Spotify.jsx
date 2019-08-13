@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import classes from './spotify.module.css';
+import Loader from './Loader';
 import axios from 'axios';
 
 class Spotify extends Component {
@@ -8,6 +9,7 @@ class Spotify extends Component {
     inputText: '',
     songs: [],
     error: null,
+    isLoading: false,
     filteredPlaylist: null
   };
 
@@ -35,6 +37,8 @@ class Spotify extends Component {
       this.setState({ error: 'Invalid Input' });
       return;
     }
+
+    this.setState({ isLoading: true });
 
     for (let i = 0; i < searchText.length; i++) {
       try {
@@ -64,7 +68,7 @@ class Spotify extends Component {
           el.length > 3
       )[0];
     });
-    this.setState({ filteredPlaylist });
+    this.setState({ filteredPlaylist, isLoading: false });
   };
 
   render() {
@@ -87,6 +91,8 @@ class Spotify extends Component {
       );
     }
 
+    const loading = this.state.isLoading ? <Loader /> : '';
+
     return (
       <Fragment>
         <form onSubmit={this.clickHandle} className={classes.forms}>
@@ -99,6 +105,7 @@ class Spotify extends Component {
           />
           <button className={classes.btn}>Search</button>
         </form>
+        {loading}
         <p className={[classes.para, classes.error].join(' ')}>
           {this.state.error}
         </p>
